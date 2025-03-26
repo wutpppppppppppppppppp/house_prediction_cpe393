@@ -14,7 +14,7 @@ docker run -p 9000:9000 ml-model
 
 # Test the API in new terminal
 
-curl -X POST http://localhost:5000/predict \
+curl -X POST http://localhost:9000/predict \
      -H "Content-Type: application/json" \
      -d '{"features": [5.1, 3.5, 1.4, 0.2]}'
 
