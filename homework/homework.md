@@ -1,4 +1,4 @@
-# 🧠 Exercises: Machine Learning Model Deployment with Docker (Submit Github link on LEB 2)
+# Homework: Machine Learning Model Deployment with Docker (Submit Github link on LEB 2)
 
 This document contains hands-on exercises to complement the **ML model deployment lab**. These tasks reinforce concepts such as Flask API creation, Docker usage, and handling model input/output in production environments.
 
