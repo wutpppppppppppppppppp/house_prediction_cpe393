@@ -72,7 +72,7 @@ Add an endpoint `/health` that returns a simple JSON indicating the API is live:
 ## 🔹 Exercise 5: Dockerize Your Own Model
 
 **Task:**  
-Train a new model on a provided housing dataset and deploy it using the same Docker structure.
+Train a new model on a provided housing dataset and deploy it using the same Docker structure. The task is to build a regression model to predict the housing price.
 
 
 ---
