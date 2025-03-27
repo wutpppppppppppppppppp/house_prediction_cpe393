@@ -4,7 +4,7 @@
 Run train.py. (model.pkl will be saved in app folder)
 
 # Go to the directory in terminal
-cd ml-docker-deploy
+cd "project folder directory"
 
 # Build Docker image
 docker build -t ml-model .
