@@ -43,7 +43,7 @@ def predict():
     data = request.get_json()
     is_valid, error_message = validate_inputs(data["features"])
     if is_valid:
-        predictions = model.predict(np.array(input_features))
+        predictions = model.predict(np.array(data["features"]))
         print({"predictions": predictions.tolist()})
     else:
         print({"error": error_message})
