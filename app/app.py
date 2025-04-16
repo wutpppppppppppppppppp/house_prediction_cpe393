@@ -19,34 +19,36 @@ def health():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    # Exercise 1
-    # data = request.get_json()
-    # input_features = np.array(data["features"]).reshape(1, -1)
-    # prediction = model.predict(input_features)
-    # confidence_score = model.predict_proba(input_features)[0][prediction[0]]  # Extract confidence for predicted class
-    # return jsonify({"prediction": int(prediction[0]), "confidence": confidence_score})
-    
-    # Exercise 2
-    # data = request.get_json()
-    # input_features = np.array(data["features"].reshape(data.ndim, -1))
-    # prediction = model.predict(input_features)
-    # return jsonify({"prediction": predict.tolist()})
-    
-    # Exercise 3 
     def validate_inputs(features):
         if not isinstance(features, list):
             return False, "Input must be a list of feature arrays."
         for feature in features:
-            if not isinstance(feature, list) or len(feature) != 4 or not all(isinstance(x, (float)) for x in feature):
+            if not isinstance(feature, list) or len(feature) != 4 or not all(isinstance(x, (float, int)) for x in feature):
                 return False, "Each feature array must contain exactly 4 numeric values."
         return True, None
+
+    # Get JSON data from the request
     data = request.get_json()
+
+    # Validate input
+    if "features" not in data:
+        return jsonify({"error": "Missing 'features' key in request data"}), 400
+
     is_valid, error_message = validate_inputs(data["features"])
-    if is_valid:
-        predictions = model.predict(np.array(data["features"]))
-        print({"predictions": predictions.tolist()})
-    else:
-        print({"error": error_message})
+    if not is_valid:
+        return jsonify({"error": error_message}), 400
+
+    # Perform predictions
+    input_features = np.array(data["features"])
+    predictions = model.predict(input_features)
+
+    # Handle confidence scores for single input
+    if len(input_features) == 1:
+        confidence_score = model.predict_proba(input_features)[0][predictions[0]]
+        return jsonify({"prediction": int(predictions[0]), "confidence": float(confidence_score)})
+
+    # Handle multiple inputs
+    return jsonify({"predictions": predictions.tolist()})
     
 
 
