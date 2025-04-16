@@ -21,14 +21,29 @@ def health():
 def predict():
     def validate_inputs(features):
         if not isinstance(features, list):
+            print("Debug: 'features' is not a list. Received:", type(features))
             return False, "Input must be a list of feature arrays."
-        for feature in features:
-            if not isinstance(feature, list) or len(feature) != 4 or not all(isinstance(x, (float, int)) for x in feature):
+        
+        for i, feature in enumerate(features):
+            if not isinstance(feature, list):
+                print(f"Debug: Feature at index {i} is not a list. Received:", type(feature))
+                return False, "Each feature array must be a list of numeric values."
+            if len(feature) != 4:
+                print(f"Debug: Feature at index {i} does not have exactly 4 elements. Received length:", len(feature))
                 return False, "Each feature array must contain exactly 4 numeric values."
+            if not all(isinstance(x, (float, int)) for x in feature):
+                invalid_elements = [x for x in feature if not isinstance(x, (float, int))]
+                print(f"Debug: Feature at index {i} contains non-numeric values. Invalid elements:", invalid_elements)
+                return False, "Each feature array must contain exactly 4 numeric values."
+        
         return True, None
 
     # Get JSON data from the request
     data = request.get_json()
+
+    # Handle case where "features" is a single list of floats
+    if "features" in data and isinstance(data["features"], list) and all(isinstance(x, (float, int)) for x in data["features"]):
+        data["features"] = [data["features"]]  # Wrap single feature array in a list
 
     # Validate input
     if "features" not in data:
