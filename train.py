@@ -1,53 +1,35 @@
-# save_model.py
+import pandas as pd
 import pickle
-import numpy as np
-from sklearn.datasets import load_iris
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 
-iris = load_iris()
-X, y = iris.data, iris.target
+DATA_PATH = "Housing.csv"
+df = pd.read_csv(DATA_PATH)
+print(f'Data is read')
+# print(df.head())
 
-model = RandomForestClassifier()
-model.fit(X, y)
+# preprocessing
+df = df.dropna()
+print(f'NaN is dropped')
 
-with open("app/model.pkl", "wb") as f:
-    pickle.dump(model, f)
+# encoding
+categorical_col = df.select_dtypes(include=["object"]).columns
+# print(categorical_col)
+lb = LabelEncoder()
+for col in categorical_col:
+    df[col] = lb.fit_transform(df[col])
+print(f'All categorical columns are encoded')
+# print(df.info())
+# print(df.head())
 
-# Single input example
-input_features = np.array([5.1, 3.5, 1.4, 0.2]).reshape(1, -1)
-prediction = model.predict(input_features)
-confidence_score = model.predict_proba(input_features)[0][prediction[0]]
+X, y = df.drop(["price"], axis=1), df["price"]
 
-# Output
-print({"prediction": int(prediction[0]), "confidence": float(confidence_score)})
+reg_model = RandomForestRegressor()
+reg_model.fit(X,y)
+print(f'Model is trained')
 
-# Multiple input example
-input_features = np.array([
-    [5.1, 3.5, 1.4, 0.2],
-    [6.2, 3.4, 5.4, 2.3]
-])
-predictions = model.predict(input_features)
+with open("app/reg_model.pkl", "wb") as f:
+    pickle.dump(reg_model, f)
 
-# Output
-print({"predictions": predictions.tolist()})
-
-def validate_inputs(features):
-    if not isinstance(features, list):
-        return False, "Input must be a list of feature arrays."
-    for feature in features:
-        if not isinstance(feature, list) or len(feature) != 4 or not all(isinstance(x, (float)) for x in feature):
-            return False, "Each feature array must contain exactly 4 float values."
-    return True, None
-
-# Example input
-input_features = [
-    [5, 3, 1, 0],
-    [6, 3, 5, 2]
-]
-
-is_valid, error_message = validate_inputs(input_features)
-if is_valid:
-    predictions = model.predict(np.array(input_features))
-    print({"predictions": predictions.tolist()})
-else:
-    print({"error": error_message})
+print(f'Model is saved')

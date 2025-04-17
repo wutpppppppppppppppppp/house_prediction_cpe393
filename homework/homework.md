@@ -74,7 +74,6 @@ Add an endpoint `/health` that returns a simple JSON indicating the API is live:
 **Task:**  
 Train a new model on a provided housing dataset and deploy it using the same Docker structure. The task is to build a regression model to predict the housing price.
 
-
 ---
 
 ## 🔹 Exercise 6: Write a README

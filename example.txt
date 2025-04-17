@@ -1,0 +1,19 @@
+{
+    "features": [7420, 4, 2, 3, "yes", "no", "no", "no", "yes", 2, "yes", "furnished"]
+}
+
+{
+    "features": [
+        [7420, 4, 2, 3, "yes", "no", "no", "no", "yes", 2, "yes", "furnished"],
+        [8960, 4, 4, 4, "yes", "no", "no", "no", "yes", 3, "no", "furnished"]
+    ]
+}
+
+Invalid Input 
+
+{
+    "features": [
+        [7420, 4, 2, 3, 1, "no", "no", "no", "yes", 2, "yes", "furnished"],
+        [8960, 4, 4, 4, "yes", "no", "no", "no", "yes", 3, "no", "furnished"]
+    ]
+}
