@@ -10,8 +10,8 @@ This project demonstrates how to train a regression model, serve it as a RESTful
 
 - [📖 Project Description](#-project-description)
 - [⚙️ Setup Instructions](#-setup-instructions)
+- [🧰 Makefile Commands](#-makefile-commands)
 - [🌐 API Endpoints](#-api-endpoints)
-- [📦 Docker Commands](#-docker-commands)
 - [📂 Folder Structure](#-folder-structure)
 - [🚀 Sample Usage](#-sample-usage)
 - [❗ Troubleshooting](#-troubleshooting)
@@ -84,6 +84,110 @@ Ensure the following are installed:
 
 ---
 
+## 🧰 Makefile Commands
+
+The project includes a `Makefile` to simplify common Docker operations. Use the following commands to manage the application efficiently.
+
+> 📝 **Note**: All commands below are run from the root directory of the project.
+
+---
+
+### 🔨 `make build`
+
+Builds the Docker image using the name defined in the Makefile (`ml-model`).
+
+```bash
+make build
+```
+
+**Equivalent to:**
+
+```bash
+docker build -t ml-model .
+```
+
+---
+
+### 🚀 `make run`
+
+Runs the Docker container and maps port `9000` from container to host.
+
+```bash
+make run
+```
+
+**Equivalent to:**
+
+```bash
+docker run -p 9000:9000 --name ml-model-container ml-model
+```
+
+---
+
+### 🛑 `make stop`
+
+Stops and removes the running container (`ml-model-container`), if it exists.
+
+```bash
+make stop
+```
+
+**Equivalent to:**
+
+```bash
+docker stop ml-model-container
+docker rm ml-model-container
+```
+
+---
+
+### ♻️ `make restart`
+
+A shortcut to **stop**, **rebuild**, and **run** the Docker container in one step.
+
+```bash
+make restart
+```
+
+**Does:**
+
+```bash
+make stop
+make build
+make run
+```
+
+---
+
+### 🧹 `make clean`
+
+Removes both the Docker container and the Docker image completely.
+
+```bash
+make clean
+```
+
+**Equivalent to:**
+
+```bash
+docker rm ml-model-container
+docker rmi ml-model
+```
+
+---
+
+### ✅ Summary Table
+
+| Command        | Description                                      |
+|----------------|--------------------------------------------------|
+| `make build`   | Build the Docker image                           |
+| `make run`     | Run the Flask app inside a Docker container      |
+| `make stop`    | Stop and remove the running Docker container     |
+| `make restart` | Stop, rebuild, and run the container             |
+| `make clean`   | Remove both the Docker container and the image   |
+
+---
+
 ## 🌐 API Endpoints
 
 ### 1. `/` — Root
@@ -140,18 +244,6 @@ Ensure the following are installed:
     "error": "Invalid value for 'mainroad' at index 0: 1"
   }
   ```
-
----
-
-## 📦 Docker Commands
-
-| Action               | Command          |
-|----------------------|------------------|
-| Build Image          | `make build`     |
-| Run Container        | `make run`       |
-| Stop Container       | `make stop`      |
-| Rebuild Everything   | `make restart`   |
-| Remove All Docker Artifacts | `make clean` |
 
 ---
 
@@ -235,5 +327,5 @@ Ensure the following are installed:
 
 ## 🛠️ Authors
 
-- **Your Name**  
+- **Panyawut Piyasirinanan**  
   *CPE393 - Machine Learning Operations*
