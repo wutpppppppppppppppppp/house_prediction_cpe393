@@ -1,4 +1,3 @@
-````markdown
 # 🏠 Housing Price Prediction API
 
 This project is part of the **CPE393 Machine Learning Operations** course. The goal is to deploy a regression model for predicting housing prices using Flask and Docker. The trained model is exposed via a REST API, allowing users to send requests for predictions and health checks.
@@ -207,8 +206,3 @@ The project involves:
 
 - **Your Name**  
   CPE393 Machine Learning Operations
-
-```
-
-This version is well-structured, visually appealing, and includes all the required details. Let me know if you need further adjustments!This version is well-structured, visually appealing, and includes all the required details. Let me know if you need further adjustments!
-```
