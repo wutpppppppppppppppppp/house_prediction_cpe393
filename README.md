@@ -1,113 +1,140 @@
-# 🏠 Housing Price Prediction API
+# 🏡 Housing Price Prediction API
 
-This project is part of the **CPE393 Machine Learning Operations** course. The goal is to deploy a regression model for predicting housing prices using Flask and Docker. The trained model is exposed via a REST API, allowing users to send requests for predictions and health checks.
+A containerized Machine Learning API for predicting housing prices built with **Flask** and **Docker**, developed as part of the **CPE393 - Machine Learning Operations** course.
+
+This project demonstrates how to train a regression model, serve it as a RESTful API, validate inputs, and manage deployments using Docker.
+
+---
+
+## 📚 Table of Contents
+
+- [📖 Project Description](#-project-description)
+- [⚙️ Setup Instructions](#-setup-instructions)
+- [🌐 API Endpoints](#-api-endpoints)
+- [📦 Docker Commands](#-docker-commands)
+- [📂 Folder Structure](#-folder-structure)
+- [🚀 Sample Usage](#-sample-usage)
+- [❗ Troubleshooting](#-troubleshooting)
+- [📋 Notes](#-notes)
+- [🛠️ Authors](#-authors)
 
 ---
 
 ## 📖 Project Description
 
-The project involves:
+This project covers the following:
 
-- Training a regression model on a housing dataset.
-- Deploying the model as a Flask API.
-- Dockerizing the application for easy deployment.
-- Handling multiple inputs, input validation, and confidence scores.
+- 📊 Training a regression model using a housing dataset.
+- 🌐 Serving predictions through a Flask API.
+- 🐳 Containerizing the app with Docker.
+- 🧪 Validating user inputs with helpful error messages.
+- 📈 Returning predictions and confidence scores for multiple inputs.
 
 ---
 
 ## ⚙️ Setup Instructions
 
-### Prerequisites
+### ✅ Prerequisites
 
-- **Python**: Version `>= 3.9`
-- **GNU Make**: Ensure it is installed by running `make --version`.
-- **Docker**: Installed and running.
+Ensure the following are installed:
 
-### Steps
+- **Python**: `>= 3.9`
+- **Docker**
+- **GNU Make** (Optional but recommended)
 
-1. **Train the Model**:
-   - Run `train.py` to train the regression model and save it as `reg_model.pkl` in the `app` folder.
+### 🛠 Steps
+
+1. **Train the Model**
+
+   Generate the regression model file before deploying:
+
    ```bash
    python train.py
    ```
-````
 
-- This step ensures the model is ready for deployment.
-
-2. **Build the Docker Image**:
-
-   - Use the Makefile to build the Docker image.
+2. **Build the Docker Image**
 
    ```bash
    make build
    ```
 
-3. **Run the Docker Container**:
-
-   - Start the Flask API inside a Docker container.
+3. **Run the Docker Container**
 
    ```bash
    make run
    ```
 
-4. **Check the API**:
+4. **Test the API**
 
-   - Visit `http://localhost:9000/health` to verify the API is running.
+   Visit: [http://localhost:9000/health](http://localhost:9000/health)
 
-5. **Stop and Clean Up**:
-   - Stop and remove the container when done.
+5. **Stop the Container**
+
    ```bash
    make stop
+   ```
+
+6. **Optional Cleanup**
+
+   Remove both the container and image:
+
+   ```bash
+   make clean
    ```
 
 ---
 
 ## 🌐 API Endpoints
 
-###1. **Root Endpoint**
+### 1. `/` — Root
 
-- **URL**: `/`
 - **Method**: `GET`
 - **Response**:
+
   ```json
   {
     "message": "ML Model is Running"
   }
   ```
 
-### 2. **Health Check**
+---
 
-- **URL**: `/health`
+### 2. `/health` — Health Check
+
 - **Method**: `GET`
 - **Response**:
+
   ```json
   {
     "status": "ok"
   }
   ```
 
-### 3. **Prediction**
+---
 
-- **URL**: `/predict`
+### 3. `/predict` — Predict Prices
+
 - **Method**: `POST`
 - **Request Body**:
+
   ```json
   {
     "features": [
-      [7420, 4, 2, 3, "yes", "no", "no", "no", "yes", 2, "yes", "furnished"],
-      [8960, 4, 4, 4, "yes", "no", "no", "no", "yes", 3, "no", "furnished"]
+      [7420, 4, 2, 3, "yes", "no", "no", "no", "yes", 2, "yes", "furnished"]
     ]
   }
   ```
+
 - **Response**:
 
   ```json
   {
-    "predictions": [13300000, 12250000]
+    "predictions": [13300000]
   }
   ```
 
-- **Error Example**:
+- **Error Response Example**:
+
   ```json
   {
     "error": "Invalid value for 'mainroad' at index 0: 1"
@@ -116,30 +143,15 @@ The project involves:
 
 ---
 
-## 🐳 Docker Commands
+## 📦 Docker Commands
 
-- **Build the Docker Image**:
-
-  ```bash
-  make build
-  ```
-
-- **Run the Docker Container**:
-
-  ```bash
-  make run
-  ```
-
-- **Stop and Remove the Container**:
-
-  ```bash
-  make stop
-  ```
-
-- **Clean Up Docker Image and Container**:
-  ```bash
-  make clean
-  ```
+| Action               | Command          |
+|----------------------|------------------|
+| Build Image          | `make build`     |
+| Run Container        | `make run`       |
+| Stop Container       | `make stop`      |
+| Rebuild Everything   | `make restart`   |
+| Remove All Docker Artifacts | `make clean` |
 
 ---
 
@@ -148,44 +160,46 @@ The project involves:
 ```
 .
 ├── app/
-│   ├── app.py          # Flask API code
-│   ├── reg_model.pkl   # Trained regression model
-├── train.py            # Model training script
-├── Dockerfile          # Docker configuration
-├── Makefile            # Makefile for Docker commands
-├── README.md           # Project documentation
+│   ├── app.py            # Flask app with API endpoints
+│   └── reg_model.pkl     # Trained regression model
+├── train.py              # Script to train and save the model
+├── Dockerfile            # Docker configuration
+├── Makefile              # Automation with Docker commands
+├── README.md             # Documentation (this file)
+└── Housing.csv           # Dataset used for training
 ```
 
 ---
 
-## ✨ Sample Usage
+## 🚀 Sample Usage
 
-1. **Train the Model**:
+1. **Train the Model**
 
    ```bash
    python train.py
    ```
 
-2. **Build and Run the API**:
+2. **Build and Run the API**
 
    ```bash
    make build
    make run
    ```
 
-3. **Send a Prediction Request**:
+3. **Send a Prediction Request**
 
    ```bash
    curl -X POST http://localhost:9000/predict \
-   -H "Content-Type: application/json" \
-   -d '{
-         "features": [
-           [7420, 4, 2, 3, "yes", "no", "no", "no", "yes", 2, "yes", "furnished"]
-         ]
-       }'
+     -H "Content-Type: application/json" \
+     -d '{
+           "features": [
+             [7420, 4, 2, 3, "yes", "no", "no", "no", "yes", 2, "yes", "furnished"]
+           ]
+         }'
    ```
 
-4. **Expected Response**:
+4. **Expected Response**
+
    ```json
    {
      "predictions": [13300000]
@@ -194,15 +208,32 @@ The project involves:
 
 ---
 
+## ❗ Troubleshooting
+
+- **Error: `make: command not found`**
+  - You're likely on Windows without GNU Make. You can:
+    - Use Git Bash or WSL.
+    - Manually run the Docker commands from the Makefile.
+
+- **Port Already in Use**
+  - Stop other apps using port `9000`, or change the port in the Makefile and Flask app.
+
+- **Model Not Found**
+  - Ensure `train.py` is run before starting the container.
+
+---
+
 ## 📋 Notes
 
-- Ensure the Housing.csv dataset is in the project directory before running train.py.
-- Use the Makefile for easier Docker management.
-- The API validates inputs and returns clear error messages for invalid data.
+- ✅ Input validation ensures safer predictions.
+- ✅ Clear error messages help with debugging requests.
+- ✅ Docker makes it easy to deploy on any environment.
+- 🧪 Consider writing tests (unit/integration) for endpoints.
+- 🗃️ Add logging for better traceability in production environments.
 
 ---
 
 ## 🛠️ Authors
 
 - **Your Name**  
-  CPE393 Machine Learning Operations
+  *CPE393 - Machine Learning Operations*
